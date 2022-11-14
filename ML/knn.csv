@@ -1,0 +1,7 @@
+x,y,target
+2,4,positive
+4,2,positive
+4,4,negative
+4,6,positive
+6,2,negative
+6,4,positive
