@@ -1,18 +1,30 @@
-def knapSack(W, wt, val, n):
-	K = [[0 for x in range(W + 1)] for x in range(n + 1)]
-	for i in range(n + 1):
-		for w in range(W + 1):
-			if i == 0 or w == 0:
-				K[i][w] = 0
-			elif wt[i-1] <= w:
-				K[i][w] = max(val[i-1] + K[i-1][w-wt[i-1]], K[i-1][w])
-			else:
-				K[i][w] = K[i-1][w]
-	return K[n][W]
-
-
-val = [60, 100, 120]
-wt = [10, 20, 30]
+val = [60, 100, 120 ]
+wt = [10, 20, 30 ]
 W = 50
 n = len(val)
-print("Maximum total value : ", knapSack(W, wt, val, n))
+ 
+# We initialize the matrix with -1 at first.
+t = [[-1 for i in range(W + 1)] for j in range(n + 1)]
+ 
+ 
+def knapsack(wt, val, W, n):
+ 
+    # base conditions
+    if n == 0 or W == 0:
+        return 0
+    if t[n][W] != -1:
+        return t[n][W]
+ 
+    # choice diagram code
+    if wt[n-1] <= W:
+        t[n][W] = max(
+            val[n-1] + knapsack(
+                wt, val, W-wt[n-1], n-1),
+            knapsack(wt, val, W, n-1))
+        return t[n][W]
+    elif wt[n-1] > W:
+        t[n][W] = knapsack(wt, val, W, n-1)
+        return t[n][W]
+ 
+ 
+print(knapsack(wt, val, W, n))

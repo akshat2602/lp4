@@ -1,11 +1,8 @@
-global N
-N = 4
-cols = set([i for i in range(N)])
-
+global n
 
 def printSolution(board):
-    for i in range(N):
-        for j in range(N):
+    for i in range(n):
+        for j in range(n):
             print(board[i][j], end=" ")
         print()
 
@@ -15,13 +12,13 @@ def isSafe(board, row, col):
         if board[row][i] == 1:
             return False
     i, j = row - 1, col + 1
-    while i >= 0 and j < N:
+    while i >= 0 and j < n:
         if board[i][j] == 1:
             return False
         i -= 1
         j += 1
     i, j = row + 1, col + 1
-    while i < N and j < N:
+    while i < n and j < n:
         if board[i][j] == 1:
             return False
         i += 1
@@ -33,7 +30,7 @@ def isSafe(board, row, col):
         i -= 1
         j -= 1
     i, j = row + 1, col - 1
-    while i < N and j >= 0:
+    while i < n and j >= 0:
         if board[i][j] == 1:
             return False
         i += 1
@@ -41,38 +38,33 @@ def isSafe(board, row, col):
     return True
 
 
-def solveNQUtil(board):
-    if not cols:
+def solvenQUtil(board, col):
+    if col >= n:
         return True
-    col = list(cols)[0]
-    for i in range(N):
+    for i in range(n):
         if isSafe(board, i, col):
             board[i][col] = 1
-            cols.remove(col)
-            if solveNQUtil(board) == True:
+            if solvenQUtil(board, col + 1) == True:
                 return True
-            cols.add(col)
             board[i][col] = 0
     return False
 
 
-def solveNQ():
+def solvenQ():
     board = []
-    for i in range(N):
+    global n
+    n = int(input("Enter the number of queens : "))
+    for _ in range(n):
         temp = []
-        for j in range(N):
+        for _ in range(n):
             temp.append(0)
         board.append(temp)
-    i, j = input("Enter i, j position of first queen : ").split()
-    i, j = int(i), int(j)
-    board[i][j] = 1
-    cols.remove(j)
-    if solveNQUtil(board) == False:
-        print("Solution does not exist")
+    if solvenQUtil(board, 0) == False:
+        print("Solution does not exist") 
         return False
 
     printSolution(board)
     return True
 
 
-solveNQ()
+solvenQ()
